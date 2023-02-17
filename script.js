@@ -3,10 +3,11 @@ const ctx = canvas.getContext('2d');
 const card = document.getElementById("card");
 const cardScore = document.getElementById("card-score");
 
+// I just want to say this is not representative of the code I usually write, don't judge me 
 
 //Global variables
 
-//SFX
+//SFX not used cause annoying <3
 let scoreSFX = new Audio("https://archive.org/download/classiccoin/classiccoin.wav");
 let gameOverSFX = new Audio("https://archive.org/download/smb_gameover/smb_gameover.wav");
 let jumpSFX = new Audio("https://archive.org/download/jump_20210424/jump.wav");
@@ -28,19 +29,19 @@ let obstacles = [];
 let gameSpeed;
 let keys = {};
 
-document.addEventListener('keydown', function (evt) {
-  keys[evt.code] = true;
+document.addEventListener('keydown', function(evt) {
+    keys[evt.code] = true;
 });
-document.addEventListener('keyup', function (evt) {
+document.addEventListener('keyup', function(evt) {
     keys[evt.code] = false;
 });
 
-function getRandomNumber(min,max){
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 //Returns true of colliding
-function squaresColliding(player,block){
+function squaresColliding(player, block) {
     let s1 = player
     let s2 = block
     return !(
@@ -54,21 +55,21 @@ function squaresColliding(player,block){
 
 const avaRun = new Image();
 avaRun.src = './assets/ava_walk_spritesheet.png'
-class Player {
-    constructor(x,y){
+class Ava {
+    constructor(x) {
         this.width = 81
         this.height = 162
         this.x = x;
         this.y = groundY - this.height;
-        this.jumpHeight = 10 ;
-        
+        this.jumpHeight = 10;
+
         //collision square
         this.col_x = this.x + 35
         this.col_y = this.y + 30
         this.col_width = this.width - 60
-        this.col_height = this.height-30
-        
-        //These 3 are used for jump configuration
+        this.col_height = this.height - 30
+
+	//jump in the name of love
         this.dy = 0;
         this.jumpForce = 21;
         this.grounded = false;
@@ -95,34 +96,34 @@ class Player {
         }
         this.Draw()
         this.frames++
-        this.frames = this.frames %30
+        this.frames = this.frames % 30
     }
     Draw() {
         //console.log(this.frames)
-        ctx.drawImage(avaRun, 0 + (540* this.frames) , 0, 540, 1149, this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x + 35,this.y + 30, this.width - 60 , this.height-30);
-    } 
+        ctx.drawImage(avaRun, 0 + (540 * this.frames), 0, 540, 1149, this.x, this.y, this.width, this.height)
 
-    Jump () {
-    if (this.grounded && this.jumpTimer == 0) {
-      this.jumpTimer = 1;
-      this.dy = -this.jumpForce;
-    } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
-      this.jumpTimer++;
-      this.dy = -this.jumpForce - (this.jumpTimer / 50);
     }
-  }
-    
+
+    Jump() {
+        if (this.grounded && this.jumpTimer == 0) {
+            this.jumpTimer = 1;
+            this.dy = -this.jumpForce;
+        } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
+            this.jumpTimer++;
+            this.dy = -this.jumpForce - (this.jumpTimer / 50);
+        }
+    }
+
 
 }
 const carl = new Image();
 carl.src = './assets/carl.png'
-class Obstacle {
-    constructor(size, speed){
+class Carl {
+    constructor() {
         this.width = 124
-        this.height = 202 
+        this.height = 202
         this.x = game_width + this.width;
-        this.y = groundY - this.height  ;
+        this.y = groundY - this.height;
         // collision square
         this.col_x = this.x + 15
         this.col_y = this.y + 40
@@ -132,147 +133,149 @@ class Obstacle {
     }
 
     Draw() {
-        ctx.drawImage(carl,this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x + 15,this.y + 40, this.width - 30 , this.height-40);    }
+        ctx.drawImage(carl, this.x, this.y, this.width, this.height)
+    }
 
-    Update () {
-    this.x += this.dx;
-    this.col_x = this.x + 15
-    this.Draw();
-    this.dx = -gameSpeed;
-  }
-    
+    Update() {
+        this.x += this.dx;
+        this.col_x = this.x + 15
+        this.Draw();
+        this.dx = -gameSpeed;
+    }
+
 }
 
 class Text {
-  constructor (t, x, y, a, c, s) {
-    this.t = t;
-    this.x = x;
-    this.y = y;
-    this.a = a;
-    this.c = c;
-    this.s = s;
-  }
+    constructor(t, x, y, a, c, s) {
+        this.t = t;
+        this.x = x;
+        this.y = y;
+        this.a = a;
+        this.c = c;
+        this.s = s;
+    }
 
-  Draw () {
-    ctx.beginPath();
-    ctx.fillStyle = this.c;
-    ctx.font = this.s + "px Albert Sans";
-    ctx.textAlign = this.a;
-    ctx.fillText(this.t, this.x, this.y);
-    ctx.closePath();
-  }
+    Draw() {
+        ctx.beginPath();
+        ctx.fillStyle = this.c;
+        ctx.font = this.s + "px Albert Sans";
+        ctx.textAlign = this.a;
+        ctx.fillText(this.t, this.x, this.y);
+        ctx.closePath();
+    }
 }
 
 // Game Functions
-function SpawnObstacle () {
-  let size = RandomIntInRange(20, 70);
-  let obstacle = new Obstacle(canvas.width + size, canvas.height - size, size, size, '#2484E4');
+function SpawnObstacle() {
+    let size = RandomIntInRange(20, 70);
+    let obstacle = new Carl();
 
 
-  obstacles.push(obstacle);
+    obstacles.push(obstacle);
 }
 
-function RandomIntInRange (min, max) {
-  return Math.round(Math.random() * (max - min) + min);
+function RandomIntInRange(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
 }
 
 
 function drawBackgroundLine() {
     ctx.beginPath();
-    ctx.moveTo(0,groundY);
+    ctx.moveTo(0, groundY);
     ctx.lineTo(900, groundY);
     ctx.lineWidth = 1.9;
     ctx.strokeStyle = "black";
     ctx.stroke();
-    ctx.fillRect(0,groundY, 900 , 600-groundY);
+    ctx.fillRect(0, groundY, 900, 600 - groundY);
 }
 
-function Start () {
-  canvas.width = 900;
-  canvas.height = 600;
-  obstacles = [];
-  score = 0;
-  spawnTimer = initialSpawnTimer;
-  ctx.font = "20px sans-serif";
+function Start() {
+    canvas.width = 900;
+    canvas.height = 600;
+    obstacles = [];
+    score = 0;
+    spawnTimer = initialSpawnTimer;
+    ctx.font = "20px sans-serif";
 
-  gameSpeed = 3;
-  gravity = 1;
+    gameSpeed = 3;
+    gravity = 1;
 
-  score = 0;
-  highscore = 0;
-  if (localStorage.getItem('highscore')) {
-    highscore = localStorage.getItem('highscore');
-  }
+    score = 0;
+    highscore = 0;
+    if (localStorage.getItem('highscore')) {
+        highscore = localStorage.getItem('highscore');
+    }
 
-  player = new Player(50, 350);
+    player = new Ava(50);
 
-  scoreText = new Text("Score: " + score, 25, 25, "left", "#212121", "20");
-  highscoreText = new Text("Highscore: " + highscore, canvas.width - 25, 25, "right", "#212121", "20");
+    scoreText = new Text("Score: " + score, 25, 25, "left", "#212121", "20");
+    highscoreText = new Text("Highscore: " + highscore, canvas.width - 25, 25, "right", "#212121", "20");
 
-  requestAnimationFrame(Update);
+    requestAnimationFrame(Update);
 }
 
 let initialSpawnTimer = 200;
 let spawnTimer = initialSpawnTimer;
-function Update () {
-  let animationId = requestAnimationFrame(Update);
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBackgroundLine()
-  spawnTimer--;
-  if (spawnTimer <= 0) {
-    SpawnObstacle();
-    spawnTimer = initialSpawnTimer - gameSpeed * 8;
-    
-    if (spawnTimer < 60) {
-      spawnTimer = 60;
+
+function Update() {
+    let animationId = requestAnimationFrame(Update);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackgroundLine()
+    spawnTimer--;
+    if (spawnTimer <= 0) {
+        SpawnObstacle();
+        spawnTimer = initialSpawnTimer - gameSpeed * 8;
+
+        if (spawnTimer < 60) {
+            spawnTimer = 60;
+        }
     }
-  }
-  // Spawn Enemies
-  for (let i = 0; i < obstacles.length; i++) {
-    let o = obstacles[i];
+    // Spawn Enemies
+    for (let i = 0; i < obstacles.length; i++) {
+        let o = obstacles[i];
 
-    if (o.x + o.w < 0) {
-      obstacles.splice(i, 1);
+        if (o.x + o.w < 0) {
+            obstacles.splice(i, 1);
+        }
+
+        if (
+            squaresColliding(player, o)
+        ) {
+            cardScore.textContent = score--;
+            card.style.display = "block";
+            cancelAnimationFrame(animationId);
+            window.localStorage.setItem('highscore', highscore);
+        }
+
+        o.Update();
     }
 
-    if (
-      squaresColliding(player,o)
-    ) {
-      cardScore.textContent = score--;
-      card.style.display = "block";
-      cancelAnimationFrame(animationId);
-      window.localStorage.setItem('highscore', highscore);
+    player.Animate();
+
+    score++;
+    scoreText.t = "Score: " + score;
+    scoreText.Draw();
+
+    if (score > highscore) {
+        highscore = score;
+        highscoreText.t = "Highscore: " + highscore;
     }
 
-    o.Update();
-  }
-      
-  player.Animate();
-
-  score++;
-  scoreText.t = "Score: " + score;
-  scoreText.Draw();
-
-  if (score > highscore) {
-    highscore = score;
-    highscoreText.t = "Highscore: " + highscore;
-  }
-  
-  highscoreText.Draw();
+    highscoreText.Draw();
 
 
-  gameSpeed += 0.003;
+    gameSpeed += 0.003;
 }
 //Restart game
-document.getElementById("restartGameBtn").addEventListener ("click", restartGame, this);
-document.getElementById("tweetBtn").addEventListener ("click", tweetScore, this);
+document.getElementById("restartGameBtn").addEventListener("click", restartGame, this);
+document.getElementById("tweetBtn").addEventListener("click", tweetScore, this);
 
 function restartGame(button) {
     card.style.display = "none";
     //button.blur();
     Start();
 }
+
 function tweetScore(button) {
     let text = `Scored ${highscore} on AvaRun %23SaveWarriorNun %23WarriorNun%0A`
     let link = "https://tbd.com"
