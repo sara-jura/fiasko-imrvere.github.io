@@ -278,7 +278,7 @@ function restartGame(button) {
 
 function tweetScore(button) {
     let text = `Scored ${highscore} on AvaRun %23SaveWarriorNun %23WarriorNun%0A`
-    let link = "https://tbd.com"
+    let link = window.location.href;
     let twitterUrl = "https://twitter.com/intent/tweet/";
     let twitterQuery = `text=${text}&url=${link}`
     window.open(`${twitterUrl}?${twitterQuery}&`, '_blank');
