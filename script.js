@@ -43,6 +43,13 @@ document.addEventListener('mouseup', function(evt) {
     keys["Click"] = false;
 });
 
+document.addEventListener('touchstart', function() {
+    keys["Tap"] = true;
+});
+document.addEventListener('touchend', function(evt) {
+    keys["Tap"] = false;
+});
+
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -85,7 +92,7 @@ class Ava {
         this.frames = 0
     }
     Animate() {
-        if (keys['Space'] || keys['KeyW'] || keys["Click"]) {
+        if (keys['Space'] || keys['KeyW'] || keys["Click"] || keys["Tap"]) {
             this.Jump();
         } else {
             this.jumpTimer = 0;
