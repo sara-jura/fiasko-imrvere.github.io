@@ -36,6 +36,13 @@ document.addEventListener('keyup', function(evt) {
     keys[evt.code] = false;
 });
 
+document.addEventListener('mousedown', function() {
+    keys["Click"] = true;
+});
+document.addEventListener('mouseup', function(evt) {
+    keys["Click"] = false;
+});
+
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -78,7 +85,7 @@ class Ava {
         this.frames = 0
     }
     Animate() {
-        if (keys['Space'] || keys['KeyW']) {
+        if (keys['Space'] || keys['KeyW'] || keys["Click"]) {
             this.Jump();
         } else {
             this.jumpTimer = 0;
