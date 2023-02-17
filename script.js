@@ -127,7 +127,7 @@ class Ava {
     Draw() {
         //console.log(this.frames)
         ctx.drawImage(avaRun, 0 + (540 * this.frames), 0, 540, 1149, this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x + 35,this.y + 30, this.width - 60 , this.height-30);
+        //ctx.strokeRect(this.x + 35,this.y + 30, this.width - 60 , this.height-30);
 
     }
 
@@ -153,15 +153,15 @@ class Carl {
         this.y = groundY - this.height;
         // collision square
         this.col_x = this.x + 15
-        this.col_y = this.y + 40
+        this.col_y = this.y + 48
         this.col_width = this.width - 30
-        this.col_height = this.height - 40
+        this.col_height = this.height - 48
         this.dx = -gameSpeed;
     }
 
     Draw() {
         ctx.drawImage(carl, this.x, this.y, this.width, this.height)
-        ctx.strokeRect(this.x + 15,this.y + 40, this.width - 30 , this.height-40);
+        //ctx.strokeRect(this.x + 15,this.y + 48, this.width - 30 , this.height-48);
     }
 
     Update() {
