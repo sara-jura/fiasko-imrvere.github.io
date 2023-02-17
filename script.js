@@ -58,6 +58,18 @@ function getRandomNumber(min, max) {
 function squaresColliding(player, block) {
     let s1 = player
     let s2 = block
+    if (!(
+        s1.col_x > s2.col_x + s2.col_width || //R1 is to the right of R2
+        s1.col_x + s1.col_width < s2.col_x || //R1 to the left of R2
+        s1.col_y > s2.col_y + s2.col_height || //R1 is below R2
+        s1.col_y + s1.col_height < s2.col_y //R1 is above R2
+    )){
+    	console.log(s1,s2)
+    	console.log(s1.col_x > s2.col_x + s2.col_width, //R1 is to the right of R2
+        s1.col_x + s1.col_width < s2.col_x, //R1 to the left of R2
+        s1.col_y > s2.col_y + s2.col_height, //R1 is below R2
+        s1.col_y + s1.col_height < s2.col_y)
+    }
     return !(
         s1.col_x > s2.col_x + s2.col_width || //R1 is to the right of R2
         s1.col_x + s1.col_width < s2.col_x || //R1 to the left of R2
@@ -115,6 +127,7 @@ class Ava {
     Draw() {
         //console.log(this.frames)
         ctx.drawImage(avaRun, 0 + (540 * this.frames), 0, 540, 1149, this.x, this.y, this.width, this.height)
+        ctx.strokeRect(this.x + 35,this.y + 30, this.width - 60 , this.height-30);
 
     }
 
@@ -148,6 +161,7 @@ class Carl {
 
     Draw() {
         ctx.drawImage(carl, this.x, this.y, this.width, this.height)
+        ctx.strokeRect(this.x + 15,this.y + 40, this.width - 30 , this.height-40);
     }
 
     Update() {
